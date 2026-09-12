@@ -4,7 +4,7 @@
 
 ## Live Demo
 
-### [Open EduSmart →](https://edusmart.vercel.app/)
+### [Open EduSmart →](https://edu-smart-six-pi.vercel.app/login)
 
 >
 ---
