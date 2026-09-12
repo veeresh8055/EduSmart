@@ -14,15 +14,15 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-indigo-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+    <div className="min-h-screen flex items-center justify-center bg-[#eee5d9] px-4 py-10">
+      <div className="page-enter w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 p-7 sm:p-9">
         
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-2xl font-bold">
             ⚡
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
+          <p className="eyebrow mb-2">Start here</p><h1 className="font-display text-3xl font-extrabold text-gray-900">Make room to grow.</h1>
           <p className="text-sm text-gray-500 mt-1">
             Join us and start your journey
           </p>

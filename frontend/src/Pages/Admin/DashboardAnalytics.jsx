@@ -28,17 +28,17 @@ const DashboardAnalytics = () => {
   const { data: dailyData, isLoading } = useGetDailyData(startDate, endDate)
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 space-y-10">
+    <div className="min-h-screen bg-gray-50 p-5 sm:p-8 lg:p-10 space-y-8 page-enter">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Analytics Overview</h1>
+        <p className="eyebrow mb-2">Admin workspace</p><h1 className="font-display text-3xl font-extrabold text-gray-900">Analytics overview</h1>
         <p className="text-gray-500 mt-1">
           Track platform performance & revenue
         </p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
         <StatCard title="Total Courses" value={data?.courses} />
         <StatCard title="Enrollments" value={data?.totalEntrollments} />
         <StatCard title="Revenue" value={`₹ ${data?.totalRevenue}`} />
@@ -46,7 +46,7 @@ const DashboardAnalytics = () => {
       </div>
 
       {/* Chart Section */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+      <div className="surface-card rounded-3xl p-5 sm:p-7">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">
@@ -64,7 +64,7 @@ const DashboardAnalytics = () => {
           <div className="h-[55vh]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dailyData || []}>
-                <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
+                <CartesianGrid stroke="#e6ded2" strokeDasharray="3 6" />
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip
@@ -73,7 +73,7 @@ const DashboardAnalytics = () => {
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#2563eb"
+                  stroke="#9b5f47"
                   strokeWidth={3}
                   dot={false}
                   activeDot={{ r: 6 }}
@@ -91,7 +91,7 @@ export default DashboardAnalytics
 
 
 const StatCard = ({ title, value }) => (
-  <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+  <div className="surface-card lift-card rounded-2xl p-5 sm:p-6">
     <p className="text-sm text-gray-500">{title}</p>
     <h2 className="text-2xl font-bold text-gray-900 mt-2">
       {value ?? '-'}

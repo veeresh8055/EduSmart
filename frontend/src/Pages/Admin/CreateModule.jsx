@@ -31,10 +31,10 @@ const CreateModule = () => {
   }
 
   return (
-    <div className='p-8 max-w-4xl mx-auto'>
+    <div className='page-enter p-5 sm:p-8 max-w-5xl mx-auto'>
       {/* Course Header */}
       <div className='mb-12'>
-        <h1 className='text-3xl font-black text-slate-900 mb-2'>{data?.title}</h1>
+        <p className='eyebrow mb-2'>Course curriculum</p><h1 className='font-display text-3xl font-extrabold text-slate-900 mb-2'>{data?.title}</h1>
         <div className='flex items-center gap-2 text-sm text-slate-600'>
           <span>Total Modules: {data?.modules?.length || 0}</span>
         </div>
@@ -95,7 +95,7 @@ const CreateModule = () => {
       {/* Modules List */}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12'>
         {data?.modules?.map((item, index) => (
-          <div key={item._id || index} className='group bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer hover:border-slate-300'>
+          <div key={item._id || index} className='lift-card group bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer hover:border-slate-300'>
             <div className='flex items-center gap-3 mb-4'>
               <div className='w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center flex-shrink-0'>
                 <svg className='w-6 h-6 text-emerald-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

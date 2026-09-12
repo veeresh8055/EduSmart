@@ -56,7 +56,7 @@ const Quiz = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 py-6 sm:py-8 px-4 page-enter">
       <div className="max-w-3xl mx-auto">
         {showResult ? (
           // Results View

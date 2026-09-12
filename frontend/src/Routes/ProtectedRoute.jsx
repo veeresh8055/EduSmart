@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom"
 
 export const ProtectedRoutes =({children, adminOnly = false})=>{
     const setUser = useUserStore((state)=>state.setUser)
-    const {data, isLoading, isError, error} = useGetUserHook()
+    const {data, isLoading, isError} = useGetUserHook()
 
     
     useEffect(()=>{

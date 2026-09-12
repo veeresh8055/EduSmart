@@ -64,11 +64,11 @@ const SinglePurchasedCourse = () => {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="learning-workspace page-enter flex h-screen bg-slate-50">
       {/* Left - Video & Comments */}
       <div className="w-1/2 flex flex-col border-r border-slate-200">
         {/* Video Player */}
-        <div className="h-[50%] bg-slate-900 flex items-center justify-center">
+        <div className="learning-media h-[50%] bg-slate-900 flex items-center justify-center">
           {module?.video ? (
             <video 
               className="h-full w-full object-contain" 

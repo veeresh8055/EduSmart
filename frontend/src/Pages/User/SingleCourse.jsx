@@ -30,8 +30,8 @@ const SingleCourse = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 bg-white rounded-2xl shadow-lg p-8">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 page-enter">
+      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 bg-white rounded-3xl shadow-lg p-5 sm:p-8">
 
         {/* Course Image */}
         <div className="flex items-center justify-center">

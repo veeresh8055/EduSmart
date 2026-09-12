@@ -9,7 +9,7 @@ import { useLoggedOut } from '@/hooks/User.hook'
 import { Spinner } from './ui/spinner'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/Store/user.store'
-import { LogOut, LayoutDashboard, BookOpen } from 'lucide-react'
+import { LogOut, LayoutDashboard, BookOpen , House } from 'lucide-react'
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -21,6 +21,11 @@ const Navbar = () => {
   }
 
   const navItems = [
+      {
+      label: 'Home',
+      icon: House,
+      onClick: () => navigate('/')
+    },
     ...(user?.admin ? [{
       label: 'Dashboard',
       icon: LayoutDashboard,
@@ -31,6 +36,7 @@ const Navbar = () => {
       icon: BookOpen,
       onClick: () => navigate('/YourCourse')
     },
+    
     {
       label: 'Logout',
       icon: LogOut,
@@ -40,12 +46,12 @@ const Navbar = () => {
   ]
 
   return (
-    <div className='h-[12vh] w-full flex items-center justify-between px-6 lg:px-9 shadow-lg bg-white/80 backdrop-blur-sm border-b border-slate-100'>
+    <header className='sticky top-0 z-40 h-18 w-full flex items-center justify-between px-5 py-4 lg:px-10 bg-[#fffdf9]/90 backdrop-blur-xl border-b border-[#e6ded2]'>
       {/* Logo - Professional Typography */}
       <div className='flex items-center gap-3'>
-        <h1 className='text-2xl lg:text-3xl font-black bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent tracking-tight'>
+        <button onClick={() => navigate('/')} className='font-display text-xl lg:text-2xl font-extrabold text-[#282522] tracking-tight'>
           EduSmart
-        </h1>
+        </button>
       </div>
 
       {/* User Menu */}
@@ -107,7 +113,7 @@ const Navbar = () => {
           </div>
         </PopoverContent>
       </Popover>
-    </div>
+    </header>
   )
 }
 

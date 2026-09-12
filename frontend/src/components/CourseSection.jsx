@@ -34,14 +34,15 @@ const CourseSection = ({ ActiveSearch }) => {
   }
 
   return (
-    <div className='py-20 px-6 bg-slate-50'>
+    <section className='py-14 sm:py-20 px-5 sm:px-8 bg-slate-50'>
       <div className='max-w-7xl mx-auto'>
+        <div className='mb-9'><p className='eyebrow mb-2'>{ActiveSearch ? 'Search results' : 'Course library'}</p><h2 className='font-display text-3xl font-extrabold'>{ActiveSearch ? `Results for “${ActiveSearch}”` : 'Find your next direction'}</h2></div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
           {data?.courses?.map((item) => (
             <div
               key={item._id}
               onClick={() => navigateSinglecourse(item._id)}
-              className='group bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-xl 
+              className='group lift-card bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-xl
                         hover:-translate-y-2 hover:border-slate-300 cursor-pointer transition-all 
                         duration-300 overflow-hidden max-w-sm mx-auto'
             >
@@ -103,7 +104,7 @@ const CourseSection = ({ ActiveSearch }) => {
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }
 

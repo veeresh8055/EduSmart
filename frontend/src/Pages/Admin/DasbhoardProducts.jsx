@@ -41,15 +41,15 @@ const DashboardProducts = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-5 sm:p-8 lg:p-10 page-enter">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Courses</h1>
+        <div><p className="eyebrow mb-2">Catalog management</p><h1 className="font-display text-3xl font-extrabold text-gray-900">Courses</h1></div>
 
         <Dialog open={openModule} onOpenChange={setOpenModule}>
           <DialogTrigger
             disabled={isPending}
-            className="px-5 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition"
+            className="px-5 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition shadow-lg"
           >
             + Add Course
           </DialogTrigger>
@@ -60,33 +60,33 @@ const DashboardProducts = () => {
               <DialogDescription>
                 <form
                   onSubmit={handleSubmit(createCourseHandler)}
-                  className="mt-6 space-y-4"
+                  className="mt-6 space-y-5"
                 >
                   <input
                     {...register("title")}
                     placeholder="Course Title"
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-3.5 border rounded-xl bg-[#fcfaf6] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
 
                   <textarea
                     {...register("description")}
                     placeholder="Course Description"
                     rows={3}
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-3.5 border rounded-xl bg-[#fcfaf6] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
 
                   <input
                     type="number"
                     {...register("amount")}
                     placeholder="Price"
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full p-3.5 border rounded-xl bg-[#fcfaf6] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
 
                   <input
                     type="file"
                     accept="image/*"
                     {...register("thumbnail")}
-                    className="w-full text-sm"
+                    className="w-full rounded-xl border border-dashed border-[#d8cdbf] p-3 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-[#f1e2d8] file:px-3 file:py-2 file:text-[#6f3c2c]"
                   />
 
                   <button
@@ -109,7 +109,7 @@ const DashboardProducts = () => {
           <div
             key={item._id}
             onClick={() => getCourseId(item._id)}
-            className="cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition p-4 group"
+            className="lift-card cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4 group"
           >
             <div className="h-40 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
               <img
