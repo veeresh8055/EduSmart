@@ -9,7 +9,7 @@ import { useLoggedOut } from '@/hooks/User.hook'
 import { Spinner } from './ui/spinner'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/Store/user.store'
-import { LogOut, User, LayoutDashboard, BookOpen } from 'lucide-react'
+import { LogOut, LayoutDashboard, BookOpen } from 'lucide-react'
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -21,16 +21,11 @@ const Navbar = () => {
   }
 
   const navItems = [
-    {
+    ...(user?.admin ? [{
       label: 'Dashboard',
       icon: LayoutDashboard,
       onClick: () => navigate('/dashboard')
-    },
-    {
-      label: 'Profile',
-      icon: User,
-      onClick: () => navigate('/profile')
-    },
+    }] : []),
     {
       label: 'Your Courses',
       icon: BookOpen,
@@ -58,20 +53,20 @@ const Navbar = () => {
         <PopoverTrigger className='flex items-center gap-3 p-2 hover:bg-slate-100 rounded-xl transition-all duration-200 group cursor-pointer'>
           <Avatar className='w-10 h-10 ring-2 ring-slate-200 group-hover:ring-slate-300 transition-all'>
             <AvatarImage 
-              src={user?.profilePhoto || "https://github.com/shadcn.png"} 
+              src={user?.profilePhoto} 
               className='object-cover'
             />
             <AvatarFallback className='bg-gradient-to-br from-slate-200 to-slate-300 text-slate-700 font-semibold text-sm'>
-              {user?.fullName ? user.fullName.slice(0,2).toUpperCase() : 'CN'}
+              {user?.fullName?.slice(0,2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           
           <div className='hidden md:block text-left'>
             <p className='font-semibold text-sm text-slate-900 leading-tight'>
-              {user?.fullName || 'User'}
+              {user?.fullName}
             </p>
             <p className='text-xs text-slate-500 font-medium tracking-wide'>
-              {user?.email?.split('@')[0] || 'Member'}
+              {user?.email?.split('@')[0]}
             </p>
           </div>
 
@@ -84,7 +79,7 @@ const Navbar = () => {
         <PopoverContent className='w-64 p-1 mt-2 border-slate-200 shadow-2xl rounded-2xl'>
           <div className='p-4 border-b border-slate-100'>
             <p className='font-semibold text-slate-900 text-sm tracking-tight'>
-              {user?.fullName || 'Welcome back'}
+              {user?.fullName}
             </p>
             <p className='text-xs text-slate-500 font-medium'>
               Manage your account

@@ -1,89 +1,40 @@
 import Login from '@/Pages/Auth/Login'
 import Register from '@/Pages/Auth/Register'
 import Home from '@/Pages/User/Home'
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { ProtectedRoutes } from './ProtectedRoute'
 import SingleCourse from '@/Pages/User/SingleCourse'
 import YourCourse from '@/Pages/User/YourCourse'
 import SinglePurchasedCourse from '@/Pages/User/SinglePurchasedCourse'
 import Dashboard from '@/Pages/Admin/Dashboard'
 import DashboardAnalytics from '@/Pages/Admin/DashboardAnalytics'
-import DasbhoardProducts from '@/Pages/Admin/DasbhoardProducts'
+import DashboardProducts from '@/Pages/Admin/DasbhoardProducts'
 import CreateModule from '@/Pages/Admin/CreateModule'
 import Quiz from '@/Pages/User/Quiz'
 import Cancel from '@/Pages/Admin/Cancel'
-import PaymenSuccess from '@/Pages/Admin/PaymenSuccess'
+import PaymentSuccess from '@/Pages/Admin/PaymenSuccess'
+import { Route, Routes } from 'react-router-dom'
+import { ProtectedRoutes } from './ProtectedRoute'
 
-const MainRoutes = () => {
-  return (
-   <Routes>
+const UserRoute = ({ children }) => <ProtectedRoutes>{children}</ProtectedRoutes>
+const AdminRoute = ({ children }) => <ProtectedRoutes adminOnly>{children}</ProtectedRoutes>
 
-    <Route path='/' element={
-        <ProtectedRoutes>
-            <Home/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/cancel' element={
-        <ProtectedRoutes>
-            <Cancel/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/purchase' element={
-        <ProtectedRoutes>
-            <PaymenSuccess/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/singleCourse/:id' element={
-        <ProtectedRoutes>
-            <SingleCourse/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/YourCourse' element={
-        <ProtectedRoutes>
-            <YourCourse/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/YourCourse/:id' element={
-        <ProtectedRoutes>
-            <SinglePurchasedCourse/>
-        </ProtectedRoutes>
-    }/>
-    <Route path='/quiz/:id' element={
-        <ProtectedRoutes>
-            <Quiz/>
-        </ProtectedRoutes>
-    }/>
-
-    <Route path='/dashboard' element={
-        <ProtectedRoutes>
-
-            <Dashboard/>
-        </ProtectedRoutes>
-        } >
-      
-      <Route index  element={
-        <ProtectedRoutes>
-            
-            <DashboardAnalytics/>
-        </ProtectedRoutes>
-        }/>
-      <Route path='dashboardProduct' element={
-          <ProtectedRoutes>
-            <DasbhoardProducts/>
-
-        </ProtectedRoutes>
-        }/>
-        <Route path='CourseModule/:id' element={
-            <ProtectedRoutes>
-                <CreateModule/>
-            </ProtectedRoutes>
-        }/>
+const MainRoutes = () => (
+  <Routes>
+    <Route path="/" element={<UserRoute><Home /></UserRoute>} />
+    <Route path="/cancel" element={<UserRoute><Cancel /></UserRoute>} />
+    <Route path="/purchase" element={<UserRoute><PaymentSuccess /></UserRoute>} />
+    <Route path="/singleCourse/:id" element={<UserRoute><SingleCourse /></UserRoute>} />
+    <Route path="/YourCourse" element={<UserRoute><YourCourse /></UserRoute>} />
+    <Route path="/YourCourse/:id" element={<UserRoute><SinglePurchasedCourse /></UserRoute>} />
+    <Route path="/quiz/:id" element={<UserRoute><Quiz /></UserRoute>} />
+    <Route path="/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>}>
+      <Route index element={<DashboardAnalytics />} />
+      <Route path="dashboardProduct" element={<DashboardProducts />} />
+      <Route path="CourseModule/:id" element={<CreateModule />} />
     </Route>
-    <Route path='/login' element={<Login/>}/>
-    <Route path='/register' element={<Register/>}/>
-   </Routes>
-  )
-}
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+    <Route path="*" element={<UserRoute><Home /></UserRoute>} />
+  </Routes>
+)
 
 export default MainRoutes

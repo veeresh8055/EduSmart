@@ -1,4 +1,4 @@
-import { dailyDataApi, getDataApi } from '@/Api/Analytic.api'
+import { dailyDataApi, getDataApi } from '@/Api/Analytic.api.js'
 import { useQuery }  from  '@tanstack/react-query'
 
 export const useGetDataHook=()=>{

@@ -5,25 +5,41 @@ import { Questions } from "../models/question.model.js";
 import { Modules } from "../models/module.model.js";
 
 const genAi = new GoogleGenerativeAI(ENV.GEMINI_API_KEY)
-const model = genAi.getGenerativeModel({model:'gemini-2.5-flash'})
+const model = genAi.getGenerativeModel({model:'gemini-3.6-flash'})
+
+const canAccessModule = async (user, moduleId) => {
+    const module = await Modules.findById(moduleId).select('courseId')
+    if (!module) return false
+    return user.admin || user.purchasedCourse.some(
+        (courseId) => courseId.toString() === module.courseId.toString()
+    )
+}
 
 export const checkQuiz = async(req,res)=>{
     try {
         const moduleId = req.params.id;
+
+        if (!await canAccessModule(req.user, moduleId)) {
+            return res.status(403).json({ success: false, message: 'Course access required' })
+        }
 
         const quiz = await Quiz.findOne({
             userId:req.user._id,
             moduleId
         })
 
-        return res.status(201).json({
+        return res.status(200).json({
             success:true,
-            hasQuiz: quiz,
+            hasQuiz: Boolean(quiz),
             quiz: quiz|| null
 
         })
     } catch (error) {
         console.log(error , "from check quiz")
+        return res.status(500).json({
+            success:false,
+            message:"Unable to check quiz"
+        })
     }
 }
 
@@ -35,6 +51,10 @@ export const generateQuiz = async(req, res)=>{
             return res.status(401).json({
                 message:"Something is missing"
             })
+        }
+
+        if (!await canAccessModule(req.user, moduleId)) {
+            return res.status(403).json({ message: 'Course access required' })
         }
 
         const existingQuiz = await Quiz.findOne({
@@ -91,7 +111,6 @@ export const generateQuiz = async(req, res)=>{
         const generateQuestion = parsed.questions || []
 
         if(!Array.isArray(generateQuestion) || generateQuestion.length===0){
-            await Quiz.findByIdAndDelete(newQuiz._id)
             return res.status(500).json({message:"No questions generated"})
         }
 
@@ -156,11 +175,19 @@ export const getQuiz = async(req,res)=>{
             })
         }
 
-        return res.status(201).json({
+        if (!await canAccessModule(req.user, quiz.moduleId)) {
+            return res.status(403).json({ success: false, message: 'Course access required' })
+        }
+
+        return res.status(200).json({
             success:true,
             quiz
         })
     } catch (error) {
         console.log(error)
+        return res.status(500).json({
+            success:false,
+            message:"Unable to load quiz"
+        })
     }
 }

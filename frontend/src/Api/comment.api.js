@@ -1,13 +1,7 @@
-import axios from "axios"
+import api from './client'
 
 export const createComment=async({id, payload})=>{
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/comment/createComment/${id}`,
-        payload,
-       {
-            headers:{'Content-Type':'Application/json'},
-            withCredentials:true
-        },
-    )
+    const res = await api.post(`/comment/createComment/${id}`, payload)
 
     return res.data
 }

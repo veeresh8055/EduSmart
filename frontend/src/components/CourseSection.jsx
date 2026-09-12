@@ -53,8 +53,8 @@ const CourseSection = ({ ActiveSearch }) => {
                   className='w-full h-48 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300'
                 />
                 <div className='absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg'>
-                  <Star className='w-4 h-4 text-yellow-500 fill-current inline mr-1' />
-                  <span className='text-sm font-bold text-slate-800'>{item.rating || '4.8'}</span>
+                  {item.rating && <><Star className='w-4 h-4 text-yellow-500 fill-current inline mr-1' />
+                  <span className='text-sm font-bold text-slate-800'>{item.rating}</span></>}
                 </div>
               </div>
 
@@ -67,12 +67,12 @@ const CourseSection = ({ ActiveSearch }) => {
                 <div className='space-y-3 mb-6'>
                   <div className='flex items-center gap-2 text-sm text-slate-600'>
                     <Users className='w-4 h-4' />
-                    <span>{item.enrolled || '1.2k'} students</span>
+                    <span>{item.enrolled ?? 0} students</span>
                   </div>
                   
                   <div className='flex items-center gap-2 text-sm text-slate-600'>
                     <Clock className='w-4 h-4' />
-                    <span>{item.duration || '12 hours'}</span>
+                    <span>{item.duration || 'Duration not specified'}</span>
                   </div>
                   
                   {ActiveSearch && (

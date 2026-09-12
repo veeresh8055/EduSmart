@@ -6,7 +6,7 @@ export const useCreateComment=()=>{
     return useMutation({
         mutationFn:createComment,
         onSuccess:(data)=>{
-            queryClient.invalidateQueries(['getComment'])
+            queryClient.invalidateQueries({ queryKey: ['getComment'] })
             toast.success(data.message)
         },
 

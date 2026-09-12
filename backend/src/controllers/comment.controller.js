@@ -28,6 +28,13 @@ export const createComment = async(req, res)=>{
             })
         }
 
+        const hasAccess = req.user.admin || req.user.purchasedCourse.some(
+            (courseId) => courseId.toString() === module.courseId.toString()
+        )
+        if (!hasAccess) {
+            return res.status(403).json({ message: "Purchase this course to comment" })
+        }
+
         const newComment = await Comment.create({
             userId,
             moduleId,

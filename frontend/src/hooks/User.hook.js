@@ -1,4 +1,4 @@
-import { getUser, loginApi, logoutApi, registerApi } from "@/Api/user.api"
+import { getUser, loginApi, logoutApi, registerApi } from "@/Api/user.api.js"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"

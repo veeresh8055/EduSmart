@@ -53,13 +53,16 @@ export const getAnalyticsDataController=async(req,res)=>{
 
 export const dailyEnrollmentData= async(startDate, endDate)=>{
     try {
+        const start = new Date(startDate)
+        const endExclusive = new Date(endDate)
+        endExclusive.setUTCDate(endExclusive.getUTCDate() + 1)
 
         const dailyData = await Order.aggregate([
             {
                 $match:{
                     createdAt:{
-                        $gte:startDate,
-                        $lte:endDate
+                        $gte:start,
+                        $lt:endExclusive
                     }
                 }
             },
@@ -68,7 +71,7 @@ export const dailyEnrollmentData= async(startDate, endDate)=>{
             {
                 $group:{
                     _id:{
-                        $dateToString:{format:"%Y-%m-%d", date:"$createdAt"}
+                        $dateToString:{format:"%Y-%m-%d", date:"$createdAt", timezone:"UTC"}
                     },
                     enrollments:{$sum:1},
                     revenue:{$sum:"$totalAmount"}
@@ -78,7 +81,7 @@ export const dailyEnrollmentData= async(startDate, endDate)=>{
         ])
 
 
-        const dateArray = getDatesInRange(startDate,endDate)
+        const dateArray = getDatesInRange(start, endExclusive)
 
         return dateArray.map((date)=>{
             const found = dailyData.find((item)=>item._id===date)
@@ -102,9 +105,9 @@ function getDatesInRange(startDate, endDate){
     const dates=[]
     let currentDate = new Date(startDate)
 
-    while(currentDate<= endDate){
-        dates.push(currentDate.toISOString().split("T")[0]);
-        currentDate.setDate(currentDate.getDate()+1)
+    while(currentDate < endDate){
+        dates.push(currentDate.toISOString().split("T")[0])
+        currentDate.setUTCDate(currentDate.getUTCDate()+1)
     }
 
     return dates
@@ -123,6 +126,12 @@ export const getDailyAnalytcController=async(req,res)=>{
 
         const start = new Date(startDate)
         const end = new Date(endDate)
+
+        if(Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end){
+            return res.status(400).json({
+                message:"Invalid date range"
+            })
+        }
 
 
         const data = await dailyEnrollmentData(start, end)

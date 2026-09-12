@@ -3,9 +3,9 @@ import { ENV } from "../config/env.js";
 import { Course } from "../models/course.model.js";
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { User } from "../models/user.model.js"; 
-import {Modules} from '../models/module.model.js'
+
 const genAI = new GoogleGenerativeAI(ENV.GEMINI_API_KEY)
-const model = genAI.getGenerativeModel({model:'gemini-2.5-flash'})
+const model = genAI.getGenerativeModel({model:'gemini-3.6-flash'})
 
 export const createCourse =async(req , res)=>{
     try {
@@ -22,10 +22,12 @@ export const createCourse =async(req , res)=>{
         
         const base64 = `data:${req.file.mimetype};base64,${thumbnail.buffer.toString("base64")}`;
 
+      
         const uploadRes = await cloudinary.uploader.upload(base64,{
             folder:"lmsYT"
         })
 
+        
         imageUrl = uploadRes.secure_url
 
         const newCourse = new Course({
@@ -44,78 +46,77 @@ export const createCourse =async(req , res)=>{
         })
 
     } catch (error) {
-        console.log(`error from create course. ${error}`)
-    }
-}
-
-
-
-export const getCourse = async(req, res)=>{
-    try {
-        
-        const {search}  = req.query;
-
-        if(!search || !search.trim()===""){
-            const allCourses = await Course.find()
-
-            return res.status(201).json({
-                courses:allCourses
-            })
-        }
-
-        const prompt =`You are an intelligent assistant for a learning managemenge platform System . A user is searching for courses. analyze the query and return the most relevant keyword from these categories
-        
-        -Artificial intelligence,
-        -MERN Stack,
-        -DevOps,
-        -Mobile Development
-
-        only reply with one keyword that best matches the query no explanation
-
-        user query: ${search}
-        `
-
-        const result = await model.generateContent(prompt);
-
-        const aiText = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text
-        ?.trim()
-        .replace(/[`"\n]/g, "") || "";
-
-        console.log("search ", search)
-        console.log("Ai text", aiText)
-
-        const searchTerm = aiText || search
-
-        const mongoQuery={
-            $or:[
-                {title:{$regex:searchTerm, $options:"i"}},
-                {description:{$regex:searchTerm, $options:"i"}},
-            ]
-        }
-
-        const courses = await Course.find(mongoQuery).lean()
-
-        console.log(`found ,${courses.length} , courses ${search}`)
-
-
-        return res.status(201).json({
-            success:true,
-            courses,
-            count:courses.length,
-            searchTerm:search,
-
+         return res.status(500).json({
+            message:"Error in Creating a corse",
+             error: error.message
         })
-
-
-    
-
-
-
-    } catch (error) {
-        console.log(`error from getCourse, ${error}`)
     }
 }
 
+
+
+export const getCourse = async (req, res) => {
+  try {
+    const search = req.query.search?.trim();
+
+    if (!search) {
+      const courses = await Course.find().lean();
+
+      return res.status(200).json({
+        success: true,
+        courses,
+        count: courses.length
+      });
+    }
+
+    const prompt = `
+Return exactly one of these categories:
+Artificial intelligence
+MERN Stack
+DevOps
+Mobile Development
+Javascript 
+Python 
+
+
+User search: ${search}
+`;
+
+    const result = await model.generateContent(prompt);
+
+    const aiText = result.response.text()
+      .trim()
+      .replace(/[`"\n.]/g, "");
+
+    console.log("User search:", search);
+    console.log("AI category:", aiText);
+
+    // Search with both user text and AI category.
+    const searchTerms = [search, aiText].filter(Boolean);
+
+    const courses = await Course.find({
+      $or: searchTerms.flatMap((term) => [
+        { title: { $regex: term, $options: "i" } },
+        { description: { $regex: term, $options: "i" } }
+      ])
+    }).lean();
+
+    return res.status(200).json({
+      success: true,
+      courses,
+      count: courses.length,
+      searchTerm: search,
+      aiCategory: aiText
+    });
+  } catch (error) {
+    console.error("getCourse error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Could not search courses"
+    });
+  }
+};
 
 
 export const getSingleCourse=async(req,res)=>{
@@ -151,6 +152,13 @@ export const getPurchasedCourse = async(req,res)=>{
             return res.status(401).json({
                 message:"course not found"
             })
+        }
+
+        const hasAccess = req.user.admin || req.user.purchasedCourse.some(
+            (purchasedId) => purchasedId.toString() === courseId
+        )
+        if (!hasAccess) {
+            return res.status(403).json({ message: "Purchase this course to access its content" })
         }
 
         const purchasedOrder = await Course.findById(courseId).populate("modules")

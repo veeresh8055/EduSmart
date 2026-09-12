@@ -1,9 +1,9 @@
-import axios from "axios"
+import api from './client'
 
 export const getDataApi = async()=>{
-    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/analytic/getAnalytic`,
+    const res = await api.get('/analytic/getAnalytic',
         {
-            headers:'Application/json',
+            headers: { 'Content-Type': 'application/json' },
             withCredentials:true
         }
     )
@@ -12,10 +12,10 @@ export const getDataApi = async()=>{
 
 
 export const dailyDataApi = async(startDate, endDate)=>{
-    const res = await  axios.get(`${import.meta.env.VITE_BASE_URL}/analytic/getDailyData`,
+    const res = await api.get('/analytic/getDailyData',
         {
             params:{startDate, endDate},
-            headers:'Application/json',
+            headers: { 'Content-Type': 'application/json' },
             withCredentials:true
         }
     )

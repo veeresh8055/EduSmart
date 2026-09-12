@@ -5,18 +5,17 @@ import { useEffect } from "react"
 
 import { Navigate } from "react-router-dom"
 
-export const ProtectedRoutes =({children})=>{
+export const ProtectedRoutes =({children, adminOnly = false})=>{
     const setUser = useUserStore((state)=>state.setUser)
     const {data, isLoading, isError, error} = useGetUserHook()
 
     
-    console.log(data)
     useEffect(()=>{
         if(data){
         setUser(data)
     }
 
-    })
+    }, [data, setUser])
     if(isLoading){
         return (
              <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
@@ -29,9 +28,12 @@ export const ProtectedRoutes =({children})=>{
     }
 
    if (isError || !data) {
-    console.error("Auth error:", error)
     return <Navigate to="/login" replace />
   }
+
+    if (adminOnly && !data.admin) {
+        return <Navigate to="/" replace />
+    }
 
     return children
 }

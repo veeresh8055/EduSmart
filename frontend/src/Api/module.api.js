@@ -1,37 +1,21 @@
-import axios from "axios"
+import api from './client'
 
 export const createModuleApi = async(payload)=>{
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/module/createModule`,
-        payload,
-        {
-            headers:{'Content-Type':'multipart/form-data'},
-            withCredentials:true
-        },
-    )
+    const res = await api.post('/module/createModule', payload)
 
     return res.data
 }
 
 
 export const getModuleApi = async(id)=>{
-    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/module/getModuel/${id}`,
-         {
-            headers:{'Content-Type':'Application/json'},
-            withCredentials:true
-        },
-    )
+    const res = await api.get(`/module/getModule/${id}`)
 
     return res.data
 }
 
 
 export const getCommentApi  = async(id)=>{
-    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/module/comment/${id}`,
-         {
-            headers:{'Content-Type':'Application/json'},
-            withCredentials:true
-        },
-    )
+    const res = await api.get(`/module/comment/${id}`)
 
     return res.data
 }

@@ -8,7 +8,7 @@ const YourCourse = () => {
   const navigate = useNavigate()
 
   const navigateSinglePurchaseCourse = (id) => {
-    navigate(id)
+    navigate(`/YourCourse/${id}`)
   }
 
   if (isLoading) {
@@ -54,7 +54,7 @@ const YourCourse = () => {
               Start learning today by exploring our course catalog
             </p>
             <button 
-              onClick={() => navigate('/courses')}
+              onClick={() => navigate('/')}
               className="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               Browse Courses

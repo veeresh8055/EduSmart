@@ -56,6 +56,11 @@ export const getSingleCourseModule = async(req,res)=>{
             })
         }
 
+        const hasAccess = req.user.admin || req.user.purchasedCourse.some(
+            (courseId) => courseId.toString() === singleModule.courseId.toString()
+        )
+        if (!hasAccess) return res.status(403).json({ message: "Course access required" })
+
         return res.status(201).json(singleModule)
     } catch (error) {
         console.log(error ,"from get single course module")
@@ -83,6 +88,12 @@ export const getComment =async(req,res)=>{
 
             options:{sort:{createdAt:-1}}
         })
+
+        if (!moduleComment) return res.status(404).json({ message: "Module not found" })
+        const hasAccess = req.user.admin || req.user.purchasedCourse.some(
+            (courseId) => courseId.toString() === moduleComment.courseId.toString()
+        )
+        if (!hasAccess) return res.status(403).json({ message: "Course access required" })
 
         return res.status(201).json(moduleComment.comments)
     } catch (error) {

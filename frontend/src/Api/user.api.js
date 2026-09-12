@@ -1,7 +1,7 @@
-import axios from "axios"
+import api from './client'
 
 export const registerApi = async(payload)=>{
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/register`,
+    const res = await api.post('/register',
         payload,
         {
             headers: {
@@ -16,10 +16,10 @@ export const registerApi = async(payload)=>{
 
 
 export const loginApi = async(payload)=>{
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/login`,
+    const res = await api.post('/login',
         payload,
         {
-            headers:'Application/json',
+            headers: { 'Content-Type': 'application/json' },
             withCredentials:true
         }
     )
@@ -28,10 +28,10 @@ export const loginApi = async(payload)=>{
 }
 
 export const getUser = async()=>{
-    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/getUser`,
+    const res = await api.get('/getUser',
         
         {
-            headers:'Application/json',
+            headers: { 'Content-Type': 'application/json' },
             withCredentials:true
         }
     )
@@ -41,10 +41,10 @@ export const getUser = async()=>{
 
 
 export const logoutApi = async()=>{
-    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/logout`,
+    const res = await api.post('/logout',
         {},
          {
-            headers:'Application/json',
+            headers: { 'Content-Type': 'application/json' },
             withCredentials:true
         }
     )

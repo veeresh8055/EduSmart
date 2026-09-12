@@ -106,7 +106,7 @@ const SinglePurchasedCourse = () => {
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="text-xs text-slate-500">
-                      {item.user?.name || 'Anonymous'}
+                      {item.userId?.fullName || 'Anonymous'}
                     </span>
                     <span className="text-xs text-slate-400">•</span>
                     <span className="text-xs text-slate-500">
@@ -173,7 +173,7 @@ const SinglePurchasedCourse = () => {
                   <AccordionContent className="px-5 py-4 bg-slate-50 border-t border-slate-200">
                     <div className="flex gap-3">
                       {/* Create Quiz Button */}
-                      {!item.quiz ? (
+                      {!CheckQuiz?.hasQuiz ? (
                         <button
                           onClick={() => createQuizHandler(item)}
                           className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center gap-2"
@@ -183,7 +183,7 @@ const SinglePurchasedCourse = () => {
                         </button>
                       ) : (
                         <button
-                          onClick={() => getQuizHandler(item.quiz)}
+                          onClick={() => getQuizHandler(CheckQuiz.quiz._id)}
                           className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center gap-2"
                         >
                           <FileQuestion className="w-4 h-4" />

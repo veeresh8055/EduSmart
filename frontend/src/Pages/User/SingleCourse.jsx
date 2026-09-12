@@ -50,7 +50,7 @@ const SingleCourse = () => {
             </h1>
 
             <p className="text-gray-600 mb-6 leading-relaxed">
-              {data?.description || "Upgrade your skills with this professional course."}
+              {data?.description}
             </p>
 
             <div className="flex items-center gap-4 mb-8">
